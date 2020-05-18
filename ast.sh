@@ -11,7 +11,8 @@ assert_not_empty "${SECRETS_GITEE_PASSWORD}"        "GITEE_PASSWORD"
 
 
 echo "fetching the latest build commit of fkling/astexplorer"
-github_latest_commit=$(curl --silent "https://gitlab.com/fkling42/astexplorer/pipelines.json?scope=all&page=1" | jq ".pipelines[] | select(.flags.latest == true and .details.status.text == \"passed\") | .commit.id" | grep -oP "[a-f\d]+")
+# github_latest_commit=$(curl --silent "https://gitlab.com/fkling42/astexplorer/pipelines.json?scope=all&page=1" | jq ".pipelines[] | select(.flags.latest == true and .details.status.text == \"passed\") | .commit.id" | grep -oP "[a-f\d]+")
+github_latest_commit=$(curl -s -H "accept: application/json" -H "travis-api-version: 3" "https://api.travis-ci.org/repo/3312963/builds?event_type=push%2Capi%2Ccron&repository_id=3312963&skip_count=true&include=build.commit%2Cbuild.branch%2Cbuild.request%2Cbuild.created_by%2Cbuild.repository" | jq ".builds | map(select(.state == \"passed\"))[0] | .commit.sha" | grep -oP "[a-f\d]+")
 if [ -z "${github_latest_commit}" ]; then
     echo "fetch the latest build commit of fkling/astexplorer failed"
 
