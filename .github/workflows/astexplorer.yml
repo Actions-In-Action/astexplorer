@@ -1,0 +1,29 @@
+name: astexplorer
+on:
+  schedule:
+    - cron: "*/30 * * * *" # Runs every first and 30th minute
+  # push:
+  #   branches:
+  #     - master
+
+jobs:
+  build:
+    name: Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the repo directory
+        uses: actions/checkout@v1
+        with:
+          submodules: true
+
+      - name: astexplorer
+        env:
+          TZ: Asia/Shanghai
+          TERM: xterm-256color # for tput
+        run: |
+          env SECRETS_PUSH_URL=${{ secrets.PUSH_URL}}\
+              SECRETS_GITEE_USERNAME=${{ secrets.GITEE_USERNAME}}\
+              SECRETS_GITEE_CLIENT_ID=${{ secrets.GITEE_CLIENT_ID}}\
+              SECRETS_GITEE_CLIENT_SECRET=${{ secrets.GITEE_CLIENT_SECRET}}\
+              SECRETS_GITEE_PASSWORD=${{ secrets.GITEE_PASSWORD}}\
+              bash ast.sh
