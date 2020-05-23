@@ -87,10 +87,10 @@ echo "${github_latest_commit} $(date "+%Y-%m-%d %H:%M:%S")" >> mylog.log
 
 git add .
 git commit -m "${github_latest_commit}"
-
+git tag -a "${github_latest_commit}" -m "${github_latest_commit}"
 
 echo "git push to gitee"
-if ! git push --repo "https://${SECRETS_GITEE_USERNAME}:${SECRETS_GITEE_PASSWORD}@gitee.com/${SECRETS_GITEE_USERNAME}/ast.git"; then
+if ! git push --follow-tags --repo "https://${SECRETS_GITEE_USERNAME}:${SECRETS_GITEE_PASSWORD}@gitee.com/${SECRETS_GITEE_USERNAME}/ast.git"; then
     echo "git push to gitee failed"
 
     exit 1
@@ -118,13 +118,13 @@ if [ "$(echo "${rebuild_result}"  | grep -oP "(?<=\")queued(?=\")")" != "queued"
 fi
 
 
-echo "git push new tag to gitee"
-git tag -a "${github_latest_commit}" -m "${github_latest_commit}"
-if ! git push --repo "https://${SECRETS_GITEE_USERNAME}:${SECRETS_GITEE_PASSWORD}@gitee.com/${SECRETS_GITEE_USERNAME}/ast.git" --tags; then
-    echo "git push new tag to gitee failed"
+# echo "git push new tag to gitee"
+# git tag -a "${github_latest_commit}" -m "${github_latest_commit}"
+# if ! git push --repo "https://${SECRETS_GITEE_USERNAME}:${SECRETS_GITEE_PASSWORD}@gitee.com/${SECRETS_GITEE_USERNAME}/ast.git" --tags; then
+#     echo "git push new tag to gitee failed"
   
-    exit 1
-fi
+#     exit 1
+# fi
 
 
 # notify me
