@@ -34,7 +34,7 @@ if ! [[ "${gitee_tag}" =~ '"commit"' ]]; then
     exit 1 
 fi  
 
-gitee_tag=$(echo "${gitee_tag}" | grep -oP "(?<=\")${github_latest_commit}(?=\")")
+gitee_tag=$(echo "${gitee_tag}" | grep -oP "(?<=\")${github_latest_commit}(?=\")" | head -1)
 if [ "${gitee_tag}" = "${github_latest_commit}" ]; then
     echo "gitee tag ${gitee_tag} already synced"
 
