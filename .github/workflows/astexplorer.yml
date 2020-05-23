@@ -26,4 +26,5 @@ jobs:
               SECRETS_GITEE_CLIENT_ID=${{ secrets.GITEE_CLIENT_ID}}\
               SECRETS_GITEE_CLIENT_SECRET=${{ secrets.GITEE_CLIENT_SECRET}}\
               SECRETS_GITEE_PASSWORD=${{ secrets.GITEE_PASSWORD}}\
+              SECRETS_PROXY_URL=${{ secrets.PROXY_URL}}\
               bash ast.sh
